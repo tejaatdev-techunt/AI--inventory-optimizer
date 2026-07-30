@@ -87,3 +87,10 @@ ai-inventory-optimizer/
 ├── pom.xml
 ├── README.md
 └── .gitignore
+
+weeksOfSupply = currentStock ÷ weeklySalesVelocity
+Overstock: (currentStock − recommendedStock) × cost — capital you'd free. 
+Understock: velocity × 3 weeks × (retailPrice − cost) — margin you'd lose to a stockout.
+The analysis is rule-based right now. 
+The natural next step is calling the Claude API to turn the flagged items into a narrative summary for store managers, 
+and after that, replacing the fixed thresholds with demand forecasting instead of a static velocity number.
