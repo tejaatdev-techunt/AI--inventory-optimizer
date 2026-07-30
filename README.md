@@ -7,7 +7,7 @@
 AI-powered inventory optimization system using Claude AI. Analyzes retail store inventory in real-time, identifies overstock/understock situations, and provides actionable recommendations to improve cash flow and prevent lost sales.
 
 **Live Demo:**
-
+carefree-respect-production-0290.up.railway.app
 ---
 
 ## 🎯 **Features**
