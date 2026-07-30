@@ -2,11 +2,9 @@ package com.inventory.service;
 
 import com.inventory.model.*;
 import com.inventory.data.SampleData;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
-@Slf4j
 @Service
 public class InventoryService {
 
@@ -30,7 +28,7 @@ public class InventoryService {
             double weeksOfSupply = product.getStock() / (double) Math.max(weeklyVelocity, 1);
 
             if (weeksOfSupply > 12) {
-                int recommended = Math.max((int)(weeklyVelocity * 4), 10);
+                int recommended = Math.max(weeklyVelocity * 4, 10);
                 double saved = (product.getStock() - recommended) * product.getCost();
 
                 recommendations.add(new Analysis.Recommendation(
@@ -39,38 +37,39 @@ public class InventoryService {
                         product.getStock(),
                         weeksOfSupply,
                         recommended,
-                        "Transfer or markdown",
-                        String.format("Free up $%.0f", saved)
+                        "Transfer to another store or mark down",
+                        String.format("Free up $%,.0f in working capital", saved)
                 ));
-            }
-            else if (weeksOfSupply < 2) {
-                double lostSales = weeklyVelocity * 3 * (product.getRetailPrice() - product.getCost());
+            } else if (weeksOfSupply < 2) {
+                double lostSales = weeklyVelocity * 3
+                        * (product.getRetailPrice() - product.getCost());
 
                 recommendations.add(new Analysis.Recommendation(
                         product.getProductName(),
                         "UNDERSTOCK",
                         product.getStock(),
                         weeksOfSupply,
-                        (int)(weeklyVelocity * 6),
-                        "Order or transfer",
-                        String.format("Prevent $%.0f lost sales", lostSales)
+                        weeklyVelocity * 6,
+                        "Reorder or transfer in from a nearby store",
+                        String.format("Prevent $%,.0f in lost sales", lostSales)
                 ));
             }
         }
 
-        long overstock = recommendations.stream().filter(r -> "OVERSTOCK".equals(r.issue)).count();
-        long understock = recommendations.stream().filter(r -> "UNDERSTOCK".equals(r.issue)).count();
+        long overstock = recommendations.stream()
+                .filter(r -> "OVERSTOCK".equals(r.getIssue())).count();
+        long understock = recommendations.stream()
+                .filter(r -> "UNDERSTOCK".equals(r.getIssue())).count();
 
-        Map<String, String> impact = new HashMap<>();
-        impact.put("total", String.format("Optimize %d products", overstock + understock));
+        String summary = String.format(
+                "Found %d overstock and %d understock items", overstock, understock);
 
-        return Analysis.builder()
-                .storeId(store.getStoreId())
-                .storeName(store.getStoreName())
-                .inventoryValue(store.getTotalValue())
-                .recommendations(recommendations)
-                .impact(impact)
-                .summary(String.format("Found %d overstock and %d understock items", overstock, understock))
-                .build();
+        return new Analysis(
+                store.getStoreId(),
+                store.getStoreName(),
+                store.getTotalValue(),
+                recommendations,
+                summary
+        );
     }
 }

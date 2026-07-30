@@ -7,40 +7,28 @@ public class SampleData {
 
     public static List<Store> getAllStores() {
         return Arrays.asList(
-                createStore("S001", "Target - Minnesota", "Minneapolis, MN", "winter",
+                new Store("S001", "Target - Minnesota", "Minneapolis, MN", "winter",
                         Arrays.asList(
-                                Product.builder().productId("P001").productName("Winter Jacket")
-                                        .stock(450).cost(35.0).retailPrice(79.99).daysInStock(15).build(),
-                                Product.builder().productId("P002").productName("Thermal Pants")
-                                        .stock(320).cost(20.0).retailPrice(49.99).daysInStock(20).build(),
-                                Product.builder().productId("P003").productName("Summer T-Shirt")
-                                        .stock(850).cost(5.0).retailPrice(14.99).daysInStock(180).build(),
-                                Product.builder().productId("P004").productName("Running Shoes")
-                                        .stock(280).cost(30.0).retailPrice(89.99).daysInStock(45).build()
+                                new Product("P001", "Winter Jacket", 450, 35.0, 79.99, 15),
+                                new Product("P002", "Thermal Pants", 320, 20.0, 49.99, 20),
+                                new Product("P003", "Summer T-Shirt", 850, 5.0, 14.99, 180),
+                                new Product("P004", "Running Shoes", 280, 30.0, 89.99, 45)
                         )),
 
-                createStore("S002", "Best Buy - Arizona", "Phoenix, AZ", "summer",
+                new Store("S002", "Best Buy - Arizona", "Phoenix, AZ", "summer",
                         Arrays.asList(
-                                Product.builder().productId("P001").productName("Winter Jacket")
-                                        .stock(520).cost(35.0).retailPrice(79.99).daysInStock(450).build(),
-                                Product.builder().productId("P003").productName("Summer T-Shirt")
-                                        .stock(150).cost(5.0).retailPrice(14.99).daysInStock(8).build(),
-                                Product.builder().productId("P006").productName("Summer Shorts")
-                                        .stock(120).cost(8.0).retailPrice(24.99).daysInStock(5).build(),
-                                Product.builder().productId("P008").productName("Sandals")
-                                        .stock(180).cost(12.0).retailPrice(34.99).daysInStock(8).build()
+                                new Product("P001", "Winter Jacket", 520, 35.0, 79.99, 450),
+                                new Product("P003", "Summer T-Shirt", 150, 5.0, 14.99, 8),
+                                new Product("P006", "Summer Shorts", 120, 8.0, 24.99, 5),
+                                new Product("P008", "Sandals", 180, 12.0, 34.99, 8)
                         )),
 
-                createStore("S003", "Costco - California", "Los Angeles, CA", "spring",
+                new Store("S003", "Costco - California", "Los Angeles, CA", "spring",
                         Arrays.asList(
-                                Product.builder().productId("P001").productName("Winter Jacket")
-                                        .stock(280).cost(35.0).retailPrice(79.99).daysInStock(120).build(),
-                                Product.builder().productId("P003").productName("Summer T-Shirt")
-                                        .stock(420).cost(5.0).retailPrice(14.99).daysInStock(35).build(),
-                                Product.builder().productId("P007").productName("Jeans")
-                                        .stock(420).cost(22.0).retailPrice(59.99).daysInStock(30).build(),
-                                Product.builder().productId("P008").productName("Sandals")
-                                        .stock(350).cost(12.0).retailPrice(34.99).daysInStock(40).build()
+                                new Product("P001", "Winter Jacket", 280, 35.0, 79.99, 120),
+                                new Product("P003", "Summer T-Shirt", 420, 5.0, 14.99, 35),
+                                new Product("P007", "Jeans", 420, 22.0, 59.99, 30),
+                                new Product("P008", "Sandals", 350, 12.0, 34.99, 40)
                         ))
         );
     }
@@ -58,15 +46,5 @@ public class SampleData {
         velocities.put("S002", Map.of("P001", 2, "P003", 45, "P006", 60, "P008", 50));
         velocities.put("S003", Map.of("P001", 15, "P003", 25, "P007", 18, "P008", 25));
         return velocities.getOrDefault(storeId, new HashMap<>());
-    }
-
-    private static Store createStore(String id, String name, String location, String season, List<Product> inventory) {
-        return Store.builder()
-                .storeId(id)
-                .storeName(name)
-                .location(location)
-                .season(season)
-                .inventory(inventory)
-                .build();
     }
 }
