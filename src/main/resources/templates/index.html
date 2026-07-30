@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏪 AI Inventory Optimizer</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="header">
+    <h1>🏪 AI Inventory Optimizer</h1>
+    <p>Powered by Claude AI | Java 17 + Spring Boot</p>
+</div>
+
+<div class="container">
+    <div class="hero">
+        <h2>Select a Store to Analyze</h2>
+    </div>
+
+    <div class="stores-grid">
+        <div th:each="store : ${stores}" class="store-card">
+            <h3 th:text="${store.storeName}"></h3>
+            <p th:text="${store.location}" class="location"></p>
+            <p class="value">
+                Inventory: <strong th:text="'$' + ${#numbers.formatInteger(store.totalValue, 0)}"></strong>
+            </p>
+            <a th:href="@{/store/{id}(id=${store.storeId})}" class="btn">Analyze</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Built with Java 17 • Spring Boot • Thymeleaf</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="header">
+    <h1 th:text="${store.storeName}"></h1>
+    <p th:text="${store.location}"></p>
+</div>
+
+<div class="container">
+    <a href="/" class="btn-back">← Back to Stores</a>
+
+    <div class="metrics">
+        <div class="metric">
+            <span class="label">Inventory Value</span>
+            <span class="value" th:text="'$' + ${#numbers.formatInteger(analysis.inventoryValue, 0)}"></span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Recommendations</span>
+            <span class="value" th:text="${analysis.recommendations.size()}"></span>
+        </div>
+
+        <div class="metric">
+            <span class="label">Summary</span>
+            <span class="value" th:text="${analysis.summary}"></span>
+        </div>
+    </div>
+
+    <div class="alert">
+        <strong>🤖 AI Analysis:</strong> <span th:text="${analysis.summary}"></span>
+    </div>
+
+    <h2>Recommendations</h2>
+
+    <div th:each="rec : ${analysis.recommendations}" class="recommendation">
+        <div class="rec-header">
+            <h3 th:text="${rec.productName}"></h3>
+            <span class="issue" th:classappend="${rec.issue}" th:text="${rec.issue}"></span>
+        </div>
+
+        <div class="rec-body">
+            <p><strong>Current Stock:</strong> <span th:text="${rec.currentStock}"></span> units</p>
+            <p><strong>Weeks of Supply:</strong> <span th:text="${#numbers.formatDecimal(rec.weeksOfSupply, 1, 1)}"></span></p>
+            <p><strong>Recommended:</strong> <span th:text="${rec.recommended}"></span> units</p>
+            <p><strong>Action:</strong> <span th:text="${rec.action}"></span></p>
+            <p class="impact"><strong>Impact:</strong> <span th:text="${rec.impact}"></span></p>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Built with Java 17 • Spring Boot • Thymeleaf</p>
+</div>
+</body>
+</html>
